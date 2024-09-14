@@ -6,16 +6,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script>
-    function auth() {
-      const params = new URLSearchParams();
-      params.append("response_type", "code");
-      params.append("client_id", "oH3GsOBlIDGZuDFTHLW0YB");
-      params.append("redirect_uri", "http://localhost:3000/callback");
-      params.append("scope", "notify");
-      params.append("state", "state");
-      const URL = `https://notify-bot.line.me/oauth/authorize?${params.toString()}`;;
-      window.location.href = URL;
-    }
+    const clientId = 'oH3GsOBlIDGZuDFTHLW0YB';
+    const redirectUri = encodeURIComponent('https://hcratch3.github.io/Line-Auth2.0-1/callback.html'); // サーバー側で受け取るリダイレクトURI
+    const authUrl = `https://notify-bot.line.me/oauth/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&scope=notify&state=randomStateValue`;
+
+    // ユーザをLINE認証ページにリダイレクト
+    window.location.href = authUrl;
+
   </script>
 </head>
 
