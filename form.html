@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LINE Notify 通知フォーム</title>
+    <script>
+        // 通知を送信する関数
+        function sendNotification(event) {
+            event.preventDefault(); // フォーム送信を防ぐ
+            
+            const accessToken = localStorage.getItem('lineAccessToken');
+            if (!accessToken) {
+                alert('アクセストークンがありません。認証を行ってください。');
+                return;
+            }
+            
+            const message = document.getElementById('message').value;
+            const notifyUrl = 'https://notify-api.line.me/api/notify';
+            
+            fetch(notifyUrl, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    message: message // フォームからのメッセージを送信
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 200) {
+                    alert('通知が送信されました!');
+                } else {
+                    alert('通知の送信に失敗しました');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</head>
+<body>
+    <h1>LINE Notify 通知フォーム</h1>
+    <form id="notifyForm" onsubmit="sendNotification(event)">
+        <label for="message">通知メッセージ:</label>
+        <input type="text" id="message" name="message" required>
+        <button type="submit">通知を送信</button>
+    </form>
+</body>
+</html>
