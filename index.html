@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>出席登録フォーム</title>
+</head>
+<body>
+    <h1>出席登録フォーム</h1>
+    <form id="attendanceForm">
+        <label for="grade">学年:</label>
+        <select id="grade" name="grade">
+            <option value="1">1年</option>
+            <option value="2">2年</option>
+            <option value="3">3年</option>
+        </select><br>
+
+        <label for="email">メールアドレス:</label>
+        <input type="email" id="email" name="email" required><br>
+
+        <label for="name">参加者本名:</label>
+        <input type="text" id="name" name="name" required><br>
+
+        <label for="event_date">開催日:</label>
+        <input type="date" id="event_date" name="event_date" required><br>
+
+        <label for="attendance">出席状況:</label>
+        <select id="attendance" name="attendance">
+            <option value="出席">出席</option>
+            <option value="欠席">欠席</option>
+        </select><br>
+
+        <button type="button" id="submitBtn">送信</button>
+    </form>
+
+    <script>
+        const clientId = 'oH3GsOBlIDGZuDFTHLW0YB'; // 取得したLINE NotifyのクライアントID
+        const redirectUri = encodeURIComponent(window.location.origin + '/callback.html'); // 自分のリダイレクトURL
+
+        document.getElementById('submitBtn').addEventListener('click', () => {
+            const grade = document.getElementById('grade').value;
+            const email = document.getElementById('email').value;
+            const name = document.getElementById('name').value;
+            const eventDate = document.getElementById('event_date').value;
+            const attendance = document.getElementById('attendance').value;
+
+            // LINE Notifyの認可URLにリダイレクト
+            const authUrl = `https://notify-bot.line.me/oauth/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&scope=notify&state=${grade},${email},${name},${eventDate},${attendance}`;
+            window.location.href = authUrl;
+        });
+    </script>
+</body>
+</html>
